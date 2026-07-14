@@ -34,7 +34,7 @@ export default function DesignSystemPreview() {
         {/* Hero */}
         <section className="animate-rise max-w-3xl">
           <p className="text-muted-foreground font-mono text-sm">
-            {"// founder-first developer"}
+            {"// full-stack developer × product engineer"}
           </p>
           <h1 className="mt-4 text-5xl font-extrabold tracking-tight sm:text-7xl">
             I design & ship
@@ -42,8 +42,9 @@ export default function DesignSystemPreview() {
             <span className="text-gradient">products</span>, end to end.
           </h1>
           <p className="text-muted-foreground mt-6 max-w-xl text-lg">
-            Not just a full-stack developer — a founder who takes ideas from
-            zero to a live, fast, well-crafted product.
+            A full-stack developer and product engineer — I think in product and
+            business, not just tech, and take ideas from zero to a live,
+            well-crafted product.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a

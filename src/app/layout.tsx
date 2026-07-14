@@ -17,11 +17,11 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Utkarsh — Founder & Product Engineer",
+    default: "Utkarsh — Full-Stack Developer & Product Engineer",
     template: "%s · Utkarsh",
   },
   description:
-    "Founder-first developer who designs, builds, and ships products end to end.",
+    "Full-stack developer and product engineer who thinks in product and business, not just code — designing, building, and shipping products end to end.",
 };
 
 export default function RootLayout({

@@ -1,16 +1,17 @@
 # Portfolio 2026 — Modernization Implementation Plan
 
 > A phase-wise plan to rebuild a Next.js developer-portfolio PWA as a fast, SEO-first,
-> founder-positioned product. The legacy app lives in `old_code/` (reference only, git-ignored)
+> product-engineer-positioned site. The legacy app lives in `old_code/` (reference only, git-ignored)
 > and the new app is a **fresh scaffold** at the repository root.
 
 ---
 
 ## 1. Vision & Positioning
 
-**Positioning:** A _founder-first developer who builds products_ — projects are presented as
-**shipped products with outcomes and impact**, not just tech-stack lists. This shapes copy,
-information architecture, and structured data.
+**Positioning:** A _full-stack developer who is also a product engineer_ — someone who thinks
+in **product and business alongside tech**. Projects are presented as **shipped products with
+outcomes and impact**, not just tech-stack lists. This shapes copy, information architecture,
+and structured data.
 
 **Three non-negotiable pillars, threaded through every phase:**
 
@@ -101,24 +102,27 @@ information architecture, and structured data.
 
 ### Phase 2 — Core Layout & Shared Components
 
-**Goal:** shell, navigation, transitions.
+**Goal:** shell, navigation, transitions — **redesigned, not ported.**
 
-- [ ] Port `layout`, `TransitionProvider`, `Navbar`, `Footer`, `Header` (analytics/schema/tags),
-      `ThemeButton`, `title`, `socials`, `timeline`, `tileList`, dialogs.
-- [ ] Framer Motion → `motion`; replace `react-transition-group` / `react-easy-swipe` with `motion`.
-- [ ] Apply glass navbar + subtle page transitions.
-- **Deliverable:** navigable shell with the new look.
+> Design direction (confirmed): **Hybrid IA** (single-page scroll Home + dedicated Products/Education/Games routes) · **bento & asymmetric** layouts · **floating glass pill** nav. Old components are a content/behavior reference only — reimagine UI, components, and layouts.
 
-### Phase 3 — Feature Pages (Home / Projects→Products / Education)
+- [ ] Build a **floating glass pill nav** (active-state glow) + `ThemeToggle` — not a full-width bar.
+- [ ] New **Footer** and shared primitives (Section, BentoGrid, Card, Chip, Button, gradient headings) on the token system.
+- [ ] Motion via **`motion`** package: subtle staggered reveals + hover micro-interactions (reduced-motion safe) — replace the old curtain-wipe transition and `react-transition-group` / `react-easy-swipe`.
+- [ ] App shell + route scaffolding for the hybrid IA (`/`, `/products`, `/education`, `/games`).
+- **Deliverable:** navigable redesigned shell with the fresh look.
 
-**Goal:** primary content, server-rendered, founder-positioned.
+### Phase 3 — Feature Pages (Home / Products / Education)
 
-- [ ] **Client→Server refactor** of containers (isolate analytics/motion to leaf components).
-- [ ] Reframe "Projects" as **Products** with outcomes/impact; rewrite copy for founder positioning.
-- [ ] Port Firebase server actions with a **lazy-singleton** init; GitHub commit caching; activity calendar; skillset.
-- [ ] Add per-route metadata, JSON-LD, OG images.
-- [ ] Upgrade Firebase, octokit, dayjs; drop lodash.
-- **Deliverable:** SEO-complete content pages.
+**Goal:** primary content, server-rendered, product-engineer-positioned — **freshly composed layouts.**
+
+- [ ] **Single-page Home** as a bento narrative: value-prop hero → "what I build" product tiles w/ metrics → condensed skill chips → milestone highlights → contact.
+- [ ] **/products** — case-study cards (role / outcome / impact / stack), featured product hero + asymmetric grid. Reframe old "projects" data as shipped products.
+- [ ] **/education** — custom **milestone timeline** (no `react-vertical-timeline-component`).
+- [ ] Skills as **chips/marquee** grouped by domain (not a logo tile grid); GitHub activity as a subtle **stat band**.
+- [ ] **Server-first** rendering (isolate analytics/motion to leaf clients); Firebase server actions with **lazy-singleton** init; commit caching.
+- [ ] Per-route metadata, JSON-LD, OG images. Upgrade Firebase, octokit, dayjs; drop lodash.
+- **Deliverable:** SEO-complete, freshly-laid-out content pages.
 
 ### Phase 4 — Games (rewrite; remove rebass / styled-components / MobX)
 
