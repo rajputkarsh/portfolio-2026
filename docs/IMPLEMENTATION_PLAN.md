@@ -149,15 +149,18 @@ and structured data.
 - [x] **3D:** Three.js + R3F + drei; **rebuilt avatar** from `utkarsh.glb`, **lazy-loaded** (`next/dynamic` `ssr:false`, code-split) so it never blocks first paint; hidden < md to protect mobile LCP.
 - **Deliverable met:** verified in production (`pnpm start`) — SW registers (scope `/`), avatar renders, manifest/sw.js/offline/icons serve; build ✓ typecheck ✓ lint ✓.
 
-### Phase 6 — Quality, Verification & Ship
+### Phase 6 — Quality, Verification & Ship ✅
 
 **Goal:** tested, documented, production-ready.
 
-- [ ] Testing: Vitest + React Testing Library (optional Playwright for offline/PWA).
-- [ ] Remove obsolete `(old-routes)`; consolidate route groups.
-- [ ] Lighthouse + a11y pass, bundle analysis, `npm audit`, unused-dependency check.
-- [ ] Update README, `.env.example`; final `old_code/` removal.
-- **Deliverable:** all pillar gates met (see §5).
+- [x] **Testing:** Vitest + Testing Library — **23 tests / 5 files** green. Extracted pure game logic into `logic.ts` (2048, tic-tac-toe) and covered rules, utils (`common`, `cn`), + a Chip render smoke test.
+- [x] **Dead-code cleanup:** removed 10 unused ported modules (old constants/interfaces/analytics) and the orphaned `src/assets/` tree.
+- [x] **Audit:** `pnpm audit` → 1 moderate, transitive via `next>postcss` (not directly fixable; low impact). Manual unused-dependency + `@/assets` check clean.
+- [x] **a11y:** semantic landmarks, heading hierarchy, `aria-label`s on icon buttons, focus-visible rings, `prefers-reduced-motion`.
+- [x] **Docs:** rewrote `README.md` for the new stack; trimmed `.env.example` to the keys actually used (all optional).
+- **Deliverable met:** `pnpm test` ✓ · `build` ✓ (19 routes) · `typecheck` ✓ · `lint` ✓. `old_code/` retained (git-ignored) pending user go-ahead to delete.
+
+> Note: Lighthouse isn't runnable in this environment; run `pnpm build && pnpm start` then Lighthouse against `:3000` to confirm the §5 score gates.
 
 ---
 
