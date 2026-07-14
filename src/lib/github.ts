@@ -9,7 +9,7 @@ export type GithubStats = {
   days: GithubDay[];
 };
 
-const WINDOW_DAYS = 90;
+const WINDOW_DAYS = 364;
 
 function dayKey(d: Date) {
   return d.toISOString().split("T")[0];
@@ -32,7 +32,7 @@ export async function getGithubStats(): Promise<GithubStats | null> {
   let total = 0;
 
   try {
-    for (let page = 1; page <= 5; page++) {
+    for (let page = 1; page <= 10; page++) {
       const res = await fetch(
         `https://api.github.com/search/commits?q=author:${profile.githubUsername}+author-date:>=${sinceStr}&per_page=100&page=${page}`,
         {

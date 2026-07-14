@@ -1,10 +1,26 @@
-import { getGithubStats } from "@/lib/github";
+import { getGithubStats, type GithubDay } from "@/lib/github";
 import { profile } from "@/content/profile";
 
-function cellClass(count: number): string {
-  if (count === 0) return "bg-muted";
+const MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+function levelClass(count: number): string {
+  if (count <= 0) return "bg-foreground/[0.06]";
   if (count <= 2) return "bg-primary/30";
-  if (count <= 5) return "bg-primary/60";
+  if (count <= 5) return "bg-primary/55";
+  if (count <= 9) return "bg-primary/80";
   return "bg-primary";
 }
 
@@ -19,6 +35,19 @@ function Stat({ value, label }: { value: string | number; label: string }) {
   );
 }
 
+/** Split the day list into weekday-aligned week columns (Sun → Sat). */
+function toWeeks(days: GithubDay[]): (GithubDay | null)[][] {
+  if (days.length === 0) return [];
+  const leading = new Date(`${days[0].date}T00:00:00Z`).getUTCDay();
+  const cells: (GithubDay | null)[] = [
+    ...Array<null>(leading).fill(null),
+    ...days,
+  ];
+  const weeks: (GithubDay | null)[][] = [];
+  for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
+  return weeks;
+}
+
 export async function GithubStats() {
   const stats = await getGithubStats();
   const githubUrl = `https://github.com/${profile.githubUsername}`;
@@ -30,7 +59,7 @@ export async function GithubStats() {
           <h3 className="text-lg font-semibold tracking-tight">
             GitHub activity
           </h3>
-          <p className="text-muted-foreground text-sm">Last 90 days</p>
+          <p className="text-muted-foreground text-sm">Past year of commits</p>
         </div>
         <a
           href={githubUrl}
@@ -49,14 +78,18 @@ export async function GithubStats() {
             <Stat value={stats.activeDays} label="active days" />
             <Stat value={`${stats.currentStreak}d`} label="current streak" />
           </div>
-          <div className="mt-6 grid grid-flow-col grid-rows-7 gap-1">
-            {stats.days.map((d) => (
+
+          <Calendar days={stats.days} />
+
+          <div className="text-muted-foreground mt-3 flex items-center gap-1.5 text-xs">
+            <span>Less</span>
+            {[0, 2, 5, 9, 12].map((n) => (
               <span
-                key={d.date}
-                title={`${d.date}: ${d.count} commit${d.count === 1 ? "" : "s"}`}
-                className={`h-2.5 w-2.5 rounded-[3px] ${cellClass(d.count)}`}
+                key={n}
+                className={`h-2.5 w-2.5 rounded-[2px] ${levelClass(n)}`}
               />
             ))}
+            <span>More</span>
           </div>
         </>
       ) : (
@@ -75,6 +108,51 @@ export async function GithubStats() {
           .
         </p>
       )}
+    </div>
+  );
+}
+
+function Calendar({ days }: { days: GithubDay[] }) {
+  const weeks = toWeeks(days);
+
+  const monthOf = (week: (GithubDay | null)[] | undefined): number => {
+    const first = week?.find(Boolean);
+    return first ? new Date(`${first.date}T00:00:00Z`).getUTCMonth() : -1;
+  };
+  const labels = weeks.map((week, i) => {
+    const m = monthOf(week);
+    return m !== -1 && m !== monthOf(weeks[i - 1]) ? MONTHS[m] : "";
+  });
+
+  return (
+    <div className="mt-6 overflow-x-auto pb-1">
+      <div className="inline-flex flex-col gap-1">
+        <div
+          className="text-muted-foreground grid grid-flow-col gap-1 text-[9px]"
+          style={{ gridTemplateColumns: `repeat(${weeks.length}, 0.75rem)` }}
+        >
+          {labels.map((label, i) => (
+            <span key={i} className="overflow-visible whitespace-nowrap">
+              {label}
+            </span>
+          ))}
+        </div>
+        <div className="grid grid-flow-col grid-rows-7 gap-1">
+          {weeks
+            .flat()
+            .map((day, i) =>
+              day ? (
+                <span
+                  key={i}
+                  title={`${day.date}: ${day.count} commit${day.count === 1 ? "" : "s"}`}
+                  className={`h-3 w-3 rounded-[2px] ${levelClass(day.count)}`}
+                />
+              ) : (
+                <span key={i} className="h-3 w-3" />
+              )
+            )}
+        </div>
+      </div>
     </div>
   );
 }

@@ -190,32 +190,22 @@ export default function HomePage() {
       {/* Activity + journey */}
       <Section className="pt-0">
         <Reveal>
-          <BentoGrid>
-            <BentoCard col={4} hover={false} className="p-0">
-              <GithubStats />
-            </BentoCard>
-            <BentoCard col={2} className="justify-between">
-              <div>
-                <p className="text-muted-foreground font-mono text-xs tracking-widest uppercase">
-                  the journey
-                </p>
-                <h3 className="mt-2 text-lg font-semibold tracking-tight">
-                  From first principles to shipping products
-                </h3>
-                <p className="text-muted-foreground mt-2 text-sm">
-                  The milestones that shaped how I build.
-                </p>
-              </div>
-              <Button
-                href="/education"
-                variant="ghost"
-                size="sm"
-                className="mt-4 self-start px-0 hover:bg-transparent"
-              >
-                See the path →
-              </Button>
-            </BentoCard>
-          </BentoGrid>
+          <GithubStats />
+        </Reveal>
+        <Reveal delay={0.05} className="mt-4">
+          <div className="card-elevated hover-glow flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center">
+            <div>
+              <p className="text-muted-foreground font-mono text-xs tracking-widest uppercase">
+                the journey
+              </p>
+              <h3 className="mt-1 text-lg font-semibold tracking-tight">
+                From first principles to shipping products
+              </h3>
+            </div>
+            <Button href="/education" variant="secondary" size="sm">
+              See the path →
+            </Button>
+          </div>
         </Reveal>
       </Section>
 
