@@ -4,16 +4,13 @@ import { BentoGrid, BentoCard } from "@/components/ui/BentoGrid";
 import { Button } from "@/components/ui/Button";
 import { Chip } from "@/components/ui/Chip";
 import { Reveal } from "@/components/ui/Reveal";
-import config from "@/constants/config";
+import { ProductCard } from "@/components/products/ProductCard";
+import { GithubStats } from "@/components/home/GithubStats";
+import { profile } from "@/content/profile";
+import { PRODUCTS, FEATURED_PRODUCTS } from "@/content/products";
+import { SKILL_GROUPS } from "@/content/skills";
 
-const CORE_STACK = [
-  "TypeScript",
-  "Next.js",
-  "React",
-  "Node",
-  "PostgreSQL",
-  "AWS",
-];
+const HERO_STACK = ["TypeScript", "Next.js", "Node", "PostgreSQL", "AWS", "AI"];
 
 export default function HomePage() {
   return (
@@ -33,18 +30,16 @@ export default function HomePage() {
               <span className="text-gradient">products</span>, end to end.
             </h1>
             <p className="text-muted-foreground mt-6 max-w-xl text-lg">
-              A full-stack developer and product engineer — I think in product
-              and business, not just tech, and take ideas from zero to a live,
-              well-crafted product.
+              {profile.summary}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button href="/products">See what I build</Button>
-              <Button href={config.social.email} external variant="secondary">
+              <Button href={profile.social.email} external variant="secondary">
                 Get in touch
               </Button>
             </div>
             <div className="mt-8 flex flex-wrap gap-2">
-              {CORE_STACK.map((s) => (
+              {HERO_STACK.map((s) => (
                 <Chip key={s}>{s}</Chip>
               ))}
             </div>
@@ -52,7 +47,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* What I build */}
+      {/* How I work */}
       <Section>
         <Reveal>
           <SectionHeading
@@ -105,7 +100,7 @@ export default function HomePage() {
               </p>
             </BentoCard>
 
-            <BentoCard col={3} className="group justify-between">
+            <BentoCard col={3} className="justify-between">
               <div>
                 <h3 className="text-gradient font-semibold">
                   Products, not demos
@@ -121,6 +116,87 @@ export default function HomePage() {
                 className="mt-4 self-start px-0 hover:bg-transparent"
               >
                 Explore products →
+              </Button>
+            </BentoCard>
+          </BentoGrid>
+        </Reveal>
+      </Section>
+
+      {/* Skills */}
+      <Section className="pt-0">
+        <Reveal>
+          <SectionHeading eyebrow="// toolkit" title="The stack I build with" />
+        </Reveal>
+        <Reveal delay={0.05} className="mt-8">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {SKILL_GROUPS.map((group) => (
+              <div key={group.label}>
+                <h3 className="text-muted-foreground font-mono text-xs tracking-widest uppercase">
+                  {group.label}
+                </h3>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {group.skills.map((s) => (
+                    <Chip key={s}>{s}</Chip>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </Section>
+
+      {/* Featured products */}
+      <Section className="pt-0">
+        <Reveal>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <SectionHeading
+              eyebrow="// selected work"
+              title={
+                <>
+                  Featured <span className="text-gradient">products</span>
+                </>
+              }
+            />
+            <Button href="/products" variant="secondary" size="sm">
+              All {PRODUCTS.length} products →
+            </Button>
+          </div>
+        </Reveal>
+        <Reveal delay={0.05} className="mt-8">
+          <div className="grid gap-4 sm:grid-cols-2">
+            {FEATURED_PRODUCTS.map((product) => (
+              <ProductCard key={product.slug} product={product} featured />
+            ))}
+          </div>
+        </Reveal>
+      </Section>
+
+      {/* Activity + journey */}
+      <Section className="pt-0">
+        <Reveal>
+          <BentoGrid>
+            <BentoCard col={4} hover={false} className="p-0">
+              <GithubStats />
+            </BentoCard>
+            <BentoCard col={2} className="justify-between">
+              <div>
+                <p className="text-muted-foreground font-mono text-xs tracking-widest uppercase">
+                  the journey
+                </p>
+                <h3 className="mt-2 text-lg font-semibold tracking-tight">
+                  From first principles to shipping products
+                </h3>
+                <p className="text-muted-foreground mt-2 text-sm">
+                  The milestones that shaped how I build.
+                </p>
+              </div>
+              <Button
+                href="/education"
+                variant="ghost"
+                size="sm"
+                className="mt-4 self-start px-0 hover:bg-transparent"
+              >
+                See the path →
               </Button>
             </BentoCard>
           </BentoGrid>
@@ -143,7 +219,7 @@ export default function HomePage() {
                 </p>
               </div>
               <Button
-                href={config.social.email}
+                href={profile.social.email}
                 external
                 variant="secondary"
                 className="shrink-0 bg-white/15 text-white"

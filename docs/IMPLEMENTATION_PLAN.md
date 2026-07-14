@@ -112,17 +112,21 @@ and structured data.
 - [x] App shell in root layout (nav + main + footer); hybrid routes `/`, `/products`, `/education`, `/games` + `/styleguide`; per-route metadata.
 - **Deliverable met:** navigable redesigned shell; build ✓ typecheck ✓ lint ✓; verified in-browser (light+dark, nav active states, bento layout, footer) — 6 routes prerendered.
 
-### Phase 3 — Feature Pages (Home / Products / Education)
+### Phase 3 — Feature Pages (Home / Products / Education) ✅
 
 **Goal:** primary content, server-rendered, product-engineer-positioned — **freshly composed layouts.**
 
-- [ ] **Single-page Home** as a bento narrative: value-prop hero → "what I build" product tiles w/ metrics → condensed skill chips → milestone highlights → contact.
-- [ ] **/products** — case-study cards (role / outcome / impact / stack), featured product hero + asymmetric grid. Reframe old "projects" data as shipped products.
-- [ ] **/education** — custom **milestone timeline** (no `react-vertical-timeline-component`).
-- [ ] Skills as **chips/marquee** grouped by domain (not a logo tile grid); GitHub activity as a subtle **stat band**.
-- [ ] **Server-first** rendering (isolate analytics/motion to leaf clients); Firebase server actions with **lazy-singleton** init; commit caching.
-- [ ] Per-route metadata, JSON-LD, OG images. Upgrade Firebase, octokit, dayjs; drop lodash.
-- **Deliverable:** SEO-complete, freshly-laid-out content pages.
+**Data decision:** content moved to **local typed files** (`src/content/*`) — Firestore dropped for content (better SEO/speed, no creds). Products pulled from the live site (22 real products w/ live links). GitHub stats fetched live via GitHub API + ISR, with graceful fallback until `GITHUB_TOKEN` is set.
+
+- [x] **Single-page Home** bento narrative: hero → "how I work" approach bento → grouped skill chips → featured products → GitHub activity band + journey → contact CTA.
+- [x] **/products** — real case-study cards (description/stack/live-demo), featured grid + full list (22 products).
+- [x] **/education** — custom **milestone timeline** from real data (no `react-vertical-timeline-component`).
+- [x] Skills as **chips grouped by domain**; GitHub activity **stat band** (commits/active days/streak + 90-day heatmap) with fallback.
+- [x] **Server-first** rendering (only `Reveal`/theme/nav are client leaves); `src/lib/github.ts` cached via ISR.
+- [x] Per-route metadata + canonical, **Person + WebSite JSON-LD**, `robots.ts`, dynamic `sitemap.ts`, `next/og` OG image. `lodash` never introduced; octokit avoided in favour of native fetch.
+- **Deliverable met:** SEO endpoints serve (robots/sitemap/JSON-LD/OG ✓); build ✓ typecheck ✓ lint ✓; verified in-browser (Home/Products/Education, light+dark). 11 routes prerendered.
+
+> Follow-up (optional): product descriptions/outcomes can be enriched in `src/content/products.ts`; add `GITHUB_TOKEN` to `.env` to light up live stats.
 
 ### Phase 4 — Games (rewrite; remove rebass / styled-components / MobX)
 

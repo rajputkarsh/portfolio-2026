@@ -3,6 +3,8 @@ import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { SITE_URL } from "@/content/profile";
 import "./globals.css";
 
 const sans = Plus_Jakarta_Sans({
@@ -17,13 +19,31 @@ const mono = JetBrains_Mono({
   display: "swap",
 });
 
+const TITLE = "Utkarsh — Full-Stack Developer & Product Engineer";
+const DESCRIPTION =
+  "Full-stack developer and product engineer who thinks in product and business, not just code — designing, building, and shipping products end to end.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Utkarsh — Full-Stack Developer & Product Engineer",
+    default: TITLE,
     template: "%s · Utkarsh",
   },
-  description:
-    "Full-stack developer and product engineer who thinks in product and business, not just code — designing, building, and shipping products end to end.",
+  description: DESCRIPTION,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: "Utkarsh",
+    title: TITLE,
+    description: DESCRIPTION,
+    url: SITE_URL,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({
@@ -44,6 +64,7 @@ export default function RootLayout({
           <main className="min-h-dvh pt-28">{children}</main>
           <Footer />
         </ThemeProvider>
+        <JsonLd />
       </body>
     </html>
   );
