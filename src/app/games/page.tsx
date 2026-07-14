@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
+import { StructuredData } from "@/components/seo/StructuredData";
+import { breadcrumb, gamesItemList } from "@/lib/structured-data";
 import { GAMES } from "@/content/games";
 
 export const metadata: Metadata = {
@@ -12,6 +14,15 @@ export const metadata: Metadata = {
 export default function GamesPage() {
   return (
     <Section>
+      <StructuredData
+        data={[
+          breadcrumb([
+            { name: "Home", path: "/" },
+            { name: "Games", path: "/games" },
+          ]),
+          gamesItemList(),
+        ]}
+      />
       <Reveal>
         <SectionHeading
           eyebrow="// arcade"

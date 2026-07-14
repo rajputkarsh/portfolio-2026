@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { ProductCard } from "@/components/products/ProductCard";
+import { StructuredData } from "@/components/seo/StructuredData";
+import { breadcrumb, productsItemList } from "@/lib/structured-data";
 import {
   FEATURED_PRODUCTS,
   OTHER_PRODUCTS,
@@ -17,6 +19,15 @@ export const metadata: Metadata = {
 export default function ProductsPage() {
   return (
     <Section>
+      <StructuredData
+        data={[
+          breadcrumb([
+            { name: "Home", path: "/" },
+            { name: "Products", path: "/products" },
+          ]),
+          productsItemList(),
+        ]}
+      />
       <Reveal>
         <SectionHeading
           eyebrow="// products"

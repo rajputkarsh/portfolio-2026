@@ -4,6 +4,7 @@ import { BentoGrid, BentoCard } from "@/components/ui/BentoGrid";
 import { Button } from "@/components/ui/Button";
 import { Chip } from "@/components/ui/Chip";
 import { Reveal } from "@/components/ui/Reveal";
+import { Typewriter } from "@/components/ui/Typewriter";
 import { ProductCard } from "@/components/products/ProductCard";
 import { GithubStats } from "@/components/home/GithubStats";
 import { AvatarLazy } from "@/components/avatar/AvatarLazy";
@@ -23,7 +24,16 @@ export default function HomePage() {
         <Container className="relative grid items-center gap-8 py-16 sm:py-24 lg:grid-cols-[1.05fr_0.95fr]">
           <Reveal>
             <p className="text-muted-foreground font-mono text-sm">
-              {"// full-stack developer × product engineer"}
+              {"// "}
+              <Typewriter
+                phrases={[
+                  "full-stack developer",
+                  "product engineer",
+                  "product & business thinker",
+                  "0 → 1 builder",
+                ]}
+                className="text-foreground/80"
+              />
             </p>
             <h1 className="mt-4 text-5xl font-extrabold tracking-tight sm:text-7xl">
               I design & ship

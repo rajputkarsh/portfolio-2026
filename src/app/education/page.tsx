@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
+import { StructuredData } from "@/components/seo/StructuredData";
+import { breadcrumb } from "@/lib/structured-data";
 import { EDUCATION } from "@/content/education";
 
 export const metadata: Metadata = {
@@ -12,6 +14,12 @@ export const metadata: Metadata = {
 export default function EducationPage() {
   return (
     <Section>
+      <StructuredData
+        data={breadcrumb([
+          { name: "Home", path: "/" },
+          { name: "Education", path: "/education" },
+        ])}
+      />
       <Reveal>
         <SectionHeading
           eyebrow="// journey"
