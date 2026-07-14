@@ -6,6 +6,7 @@ import { Chip } from "@/components/ui/Chip";
 import { Reveal } from "@/components/ui/Reveal";
 import { ProductCard } from "@/components/products/ProductCard";
 import { GithubStats } from "@/components/home/GithubStats";
+import { AvatarLazy } from "@/components/avatar/AvatarLazy";
 import { profile } from "@/content/profile";
 import { PRODUCTS, FEATURED_PRODUCTS } from "@/content/products";
 import { SKILL_GROUPS } from "@/content/skills";
@@ -19,8 +20,8 @@ export default function HomePage() {
       <section className="relative overflow-hidden">
         <div className="bg-grid pointer-events-none absolute inset-0 opacity-50" />
         <div className="bg-aurora pointer-events-none absolute inset-0" />
-        <Container className="relative py-16 sm:py-24">
-          <Reveal className="max-w-3xl">
+        <Container className="relative grid items-center gap-8 py-16 sm:py-24 lg:grid-cols-[1.05fr_0.95fr]">
+          <Reveal>
             <p className="text-muted-foreground font-mono text-sm">
               {"// full-stack developer × product engineer"}
             </p>
@@ -44,6 +45,11 @@ export default function HomePage() {
               ))}
             </div>
           </Reveal>
+
+          {/* Lazy 3D avatar — hidden on small screens to protect mobile LCP */}
+          <div className="hidden h-[26rem] md:block">
+            <AvatarLazy />
+          </div>
         </Container>
       </section>
 

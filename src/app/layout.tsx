@@ -1,9 +1,11 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
+import { InstallPrompt } from "@/components/pwa/InstallPrompt";
 import { SITE_URL } from "@/content/profile";
 import "./globals.css";
 
@@ -44,6 +46,18 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
   },
+  appleWebApp: {
+    capable: true,
+    title: "Utkarsh",
+    statusBarStyle: "black-translucent",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f6f7fb" },
+    { media: "(prefers-color-scheme: dark)", color: "#090d19" },
+  ],
 };
 
 export default function RootLayout({
@@ -63,7 +77,9 @@ export default function RootLayout({
           <Navbar />
           <main className="min-h-dvh pt-28">{children}</main>
           <Footer />
+          <InstallPrompt />
         </ThemeProvider>
+        <ServiceWorkerRegister />
         <JsonLd />
       </body>
     </html>

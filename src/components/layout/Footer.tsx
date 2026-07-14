@@ -2,6 +2,7 @@ import Link from "next/link";
 import config from "@/constants/config";
 import { NAV_LINKS } from "@/constants/navigation";
 import { Container } from "@/components/ui/Container";
+import { NotificationsButton } from "@/components/pwa/NotificationsButton";
 
 type IconProps = { className?: string };
 
@@ -93,9 +94,12 @@ export function Footer() {
         </div>
 
         <div className="border-border/60 mt-10 flex flex-col-reverse items-center justify-between gap-4 border-t pt-6 sm:flex-row">
-          <p className="text-muted-foreground text-xs">
-            © {year} Utkarsh. Built with Next.js &amp; Tailwind.
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="text-muted-foreground text-xs">
+              © {year} Utkarsh. Built with Next.js &amp; Tailwind.
+            </p>
+            <NotificationsButton />
+          </div>
           <ul className="flex items-center gap-2">
             {SOCIALS.map(({ key, label }) => {
               const Icon = icons[key];

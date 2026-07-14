@@ -128,23 +128,26 @@ and structured data.
 
 > Follow-up (optional): product descriptions/outcomes can be enriched in `src/content/products.ts`; add `GITHUB_TOKEN` to `.env` to light up live stats.
 
-### Phase 4 — Games (rewrite; remove rebass / styled-components / MobX)
+### Phase 4 — Games (rewrite; remove rebass / styled-components / MobX) ✅
 
-**Goal:** all games with zero legacy styling/state deps, lazy-loaded.
+**Goal:** all games with zero legacy styling/state deps, route-split.
 
-- [ ] Rewrite 2048, tic-tac-toe, snakes, tetris, minesweeper, **Klondike solitaire** in Tailwind.
-- [ ] Replace MobX solitaire store with **Zustand** (or `useReducer`); port Card/Deck/Pile/Foundation models.
-- [ ] `next/dynamic` load each game; ensure no game code enters the main bundle.
-- **Deliverable:** games at feature parity, lean.
+- [x] Rewrote all six in Tailwind + React state: **2048** (keyboard+swipe), **Tic-Tac-Toe** (minimax AI + 2P), **Snakes**, **Tetris**, **Minesweeper** (3 levels), **Klondike Solitaire**.
+- [x] Replaced MobX with **`useReducer`** (Solitaire) — no new dependency; MobX/rebass/styled-components/redux confirmed absent from the project.
+- [x] Route-split by App Router — each game is its own `/games/<slug>` chunk, never in the main/home bundle (`next/dynamic` unnecessary).
+- [x] Games hub with arcade cards + shared `GameShell`; per-game metadata.
+- **Deliverable met:** build ✓ typecheck ✓ lint ✓ (17 routes prerendered); verified in-browser — Tic-Tac-Toe plays with a working AI (X center → AI O corner).
 
-### Phase 5 — PWA & 3D
+### Phase 5 — PWA & 3D ✅
 
 **Goal:** full PWA + 3D parity on the new stack.
 
-- [ ] PWA: upgrade next-pwa or migrate to **Serwist**; validate offline fallback, SW, install dialog, push, precache.
-- [ ] Upgrade Three.js / R3F / drei; keep or port the 3D avatar (lazy-loaded, off critical path).
-- [ ] Verify manifest, sitemap, robots, schema markup, analytics.
-- **Deliverable:** installable, offline-capable PWA with 3D.
+**SW decision:** hand-rolled `public/sw.js` (not Serwist/next-pwa) — the project builds with **Turbopack**, where those webpack plugins are unreliable. Fully controllable + Turbopack-safe.
+
+- [x] **PWA:** `app/manifest.ts` (indigo theme), fresh **generated indigo icons** (192/256/384/512/maskable/apple/favicon via `scripts/generate-icons.mjs` + sharp), hand-rolled service worker (offline fallback + runtime caching + Web-Push handlers), prod-only registration, `/offline` page, custom `InstallPrompt`, theme-color viewport.
+- [x] **Push:** FCM wired (`src/lib/notifications.ts` + footer `NotificationsButton`) — **creds-gated**, no-ops until `NEXT_PUBLIC_FIREBASE_*` + VAPID set; SW push/notificationclick handlers ready.
+- [x] **3D:** Three.js + R3F + drei; **rebuilt avatar** from `utkarsh.glb`, **lazy-loaded** (`next/dynamic` `ssr:false`, code-split) so it never blocks first paint; hidden < md to protect mobile LCP.
+- **Deliverable met:** verified in production (`pnpm start`) — SW registers (scope `/`), avatar renders, manifest/sw.js/offline/icons serve; build ✓ typecheck ✓ lint ✓.
 
 ### Phase 6 — Quality, Verification & Ship
 
