@@ -100,17 +100,17 @@ and structured data.
 - [x] Folded useful global styles (scrollbar, selection, `fade-in`) re-skinned to the new palette; SCSS partials superseded by tokens.
 - **Deliverable met:** single flash-free theming source; verified light + dark + system detection in-browser. Temporary design-system preview at `src/app/page.tsx` (replaced in Phase 3).
 
-### Phase 2 — Core Layout & Shared Components
+### Phase 2 — Core Layout & Shared Components ✅
 
 **Goal:** shell, navigation, transitions — **redesigned, not ported.**
 
 > Design direction (confirmed): **Hybrid IA** (single-page scroll Home + dedicated Products/Education/Games routes) · **bento & asymmetric** layouts · **floating glass pill** nav. Old components are a content/behavior reference only — reimagine UI, components, and layouts.
 
-- [ ] Build a **floating glass pill nav** (active-state glow) + `ThemeToggle` — not a full-width bar.
-- [ ] New **Footer** and shared primitives (Section, BentoGrid, Card, Chip, Button, gradient headings) on the token system.
-- [ ] Motion via **`motion`** package: subtle staggered reveals + hover micro-interactions (reduced-motion safe) — replace the old curtain-wipe transition and `react-transition-group` / `react-easy-swipe`.
-- [ ] App shell + route scaffolding for the hybrid IA (`/`, `/products`, `/education`, `/games`).
-- **Deliverable:** navigable redesigned shell with the fresh look.
+- [x] **Floating glass pill nav** with animated active indicator (motion `layoutId`), mobile dropdown, brand + `ThemeToggle` — `src/components/layout/Navbar.tsx`.
+- [x] New **Footer** (socials from config) + shared primitives: `Container`, `Section`/`SectionHeading`, `BentoGrid`/`BentoCard`, `Card`, `Chip`, `Button`, `Reveal` — `src/components/ui/*`.
+- [x] Motion via **`motion`** package: reduced-motion-safe scroll reveals + hover-glow micro-interactions (replaces old curtain wipe / `react-transition-group` / `react-easy-swipe`).
+- [x] App shell in root layout (nav + main + footer); hybrid routes `/`, `/products`, `/education`, `/games` + `/styleguide`; per-route metadata.
+- **Deliverable met:** navigable redesigned shell; build ✓ typecheck ✓ lint ✓; verified in-browser (light+dark, nav active states, bento layout, footer) — 6 routes prerendered.
 
 ### Phase 3 — Feature Pages (Home / Products / Education)
 
