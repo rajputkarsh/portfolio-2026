@@ -89,16 +89,15 @@ information architecture, and structured data.
 - [x] Port dependency-light modules: `constants/`, `interfaces/`, `utils/` (common, analyticsEvents), `assets/` (added `dayjs`).
 - **Deliverable met:** `pnpm build` ✓ · `typecheck` ✓ · `lint` ✓ · `format` ✓ · dev server Ready in ~200ms.
 
-### Phase 1 — Theme System & Design Tokens ⭐
+### Phase 1 — Theme System & Design Tokens ⭐ ✅
 
 **Goal:** coherent, flash-free theming as the foundation.
 
-- [ ] Tailwind v4 CSS-first `@theme`: migrate/redesign palette → blue/indigo/violet; type scale, spacing, radius, elevation tokens.
-- [ ] Define the glass/depth accent utilities (navbar blur, elevated card, hover glow).
-- [ ] Fix light/dark: correct `next-themes` wiring, no-flash inline script, `suppressHydrationWarning`;
-      remove the old hardcoded `className="light"` + inline `colorScheme` contradiction.
-- [ ] Fold SCSS partials (`_colors`, `_mixins`, `_mediaQueries`) into CSS variables / tokens.
-- **Deliverable:** single source of truth for theming; no theme flash.
+- [x] Tailwind v4 CSS-first `@theme` in `globals.css`: cool **blue→indigo→violet** palette, cool neutrals, semantic tokens, radius + soft-shadow scales, modern type (Plus Jakarta Sans + JetBrains Mono).
+- [x] Glass/depth accent `@utility`s: `glass`, `card-elevated`, `hover-glow`, `gradient-brand`, `text-gradient`, `bg-aurora`, `bg-grid`.
+- [x] `next-themes` wired (class strategy, `defaultTheme="system"`, `enableSystem`, `disableTransitionOnChange`) + `suppressHydrationWarning`; flash-free CSS-driven `ThemeToggle` (no old hardcoded `light` class).
+- [x] Folded useful global styles (scrollbar, selection, `fade-in`) re-skinned to the new palette; SCSS partials superseded by tokens.
+- **Deliverable met:** single flash-free theming source; verified light + dark + system detection in-browser. Temporary design-system preview at `src/app/page.tsx` (replaced in Phase 3).
 
 ### Phase 2 — Core Layout & Shared Components
 

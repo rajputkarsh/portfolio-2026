@@ -1,65 +1,136 @@
-import Image from "next/image";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
-export default function Home() {
+/**
+ * TEMPORARY — Phase 1 design-system preview.
+ * Showcases the new blue→indigo→violet token system, typography, and the
+ * glass/depth accent layer. Replaced by the real Home page in Phase 3.
+ */
+
+const SWATCHES = [
+  { name: "background", className: "bg-background border border-border" },
+  { name: "card", className: "bg-card border border-border" },
+  { name: "muted", className: "bg-muted" },
+  { name: "primary", className: "bg-primary" },
+  { name: "accent", className: "bg-accent" },
+] as const;
+
+export default function DesignSystemPreview() {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex w-full max-w-3xl flex-1 flex-col items-center justify-between bg-white px-16 py-32 sm:items-start dark:bg-black">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl leading-10 font-semibold tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="relative min-h-dvh overflow-hidden">
+      {/* Ambient depth — kept intentionally subtle */}
+      <div className="bg-grid pointer-events-none absolute inset-0 opacity-60" />
+      <div className="bg-aurora pointer-events-none absolute inset-0" />
+
+      {/* Glass header */}
+      <header className="glass sticky top-4 z-20 mx-auto flex w-[min(1100px,92%)] items-center justify-between rounded-full px-5 py-3">
+        <span className="font-mono text-sm font-semibold tracking-tight">
+          <span className="text-muted-foreground">const</span>{" "}
+          <span className="text-gradient">utkarsh</span>
+        </span>
+        <ThemeToggle />
+      </header>
+
+      <div className="relative mx-auto w-[min(1100px,92%)] py-20">
+        {/* Hero */}
+        <section className="animate-rise max-w-3xl">
+          <p className="text-muted-foreground font-mono text-sm">
+            {"// founder-first developer"}
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="bg-foreground text-background flex h-12 w-full items-center justify-center gap-2 rounded-full px-5 transition-colors hover:bg-[#383838] md:w-[158px] dark:hover:bg-[#ccc]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] md:w-[158px] dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+          <h1 className="mt-4 text-5xl font-extrabold tracking-tight sm:text-7xl">
+            I design & ship
+            <br />
+            <span className="text-gradient">products</span>, end to end.
+          </h1>
+          <p className="text-muted-foreground mt-6 max-w-xl text-lg">
+            Not just a full-stack developer — a founder who takes ideas from
+            zero to a live, fast, well-crafted product.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a
+              href="#tokens"
+              className="hover-glow gradient-brand shadow-soft-md inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold text-white"
+            >
+              View the system
+            </a>
+            <a
+              href="#tokens"
+              className="glass hover-glow text-foreground inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold"
+            >
+              Explore accents
+            </a>
+          </div>
+        </section>
+
+        {/* Tokens */}
+        <section id="tokens" className="mt-24 scroll-mt-24">
+          <h2 className="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
+            Palette
+          </h2>
+          <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-5">
+            {SWATCHES.map((s) => (
+              <div key={s.name}>
+                <div
+                  className={`h-20 w-full rounded-xl ${s.className}`}
+                  aria-hidden
+                />
+                <p className="text-muted-foreground mt-2 font-mono text-xs">
+                  {s.name}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Typography */}
+        <section className="mt-20">
+          <h2 className="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
+            Type scale
+          </h2>
+          <div className="mt-5 space-y-2">
+            <p className="text-5xl font-extrabold tracking-tight">
+              Display / Jakarta
+            </p>
+            <p className="text-2xl font-semibold">Heading / semibold</p>
+            <p className="text-muted-foreground text-base">
+              Body copy in a calm, cool neutral — readable and unhurried.
+            </p>
+            <p className="text-primary font-mono text-sm">
+              mono / JetBrains — const ship = () =&gt; product;
+            </p>
+          </div>
+        </section>
+
+        {/* Depth accents */}
+        <section className="mt-20">
+          <h2 className="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
+            Depth accents (~5%)
+          </h2>
+          <div className="mt-5 grid gap-5 sm:grid-cols-3">
+            <article className="card-elevated hover-glow p-6">
+              <h3 className="font-semibold">Elevated card</h3>
+              <p className="text-muted-foreground mt-2 text-sm">
+                Soft shadow, hairline border, gentle lift on hover.
+              </p>
+            </article>
+            <article className="glass hover-glow rounded-[var(--radius)] p-6">
+              <h3 className="font-semibold">Glass panel</h3>
+              <p className="text-muted-foreground mt-2 text-sm">
+                Backdrop blur + saturation. Used sparingly for chrome.
+              </p>
+            </article>
+            <article className="card-elevated hover-glow p-6">
+              <h3 className="text-gradient font-semibold">Hover glow</h3>
+              <p className="text-muted-foreground mt-2 text-sm">
+                Indigo bloom on hover — the signature micro-interaction.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <p className="text-muted-foreground mt-20 font-mono text-xs">
+          {"/* temporary Phase 1 preview — real Home lands in Phase 3 */"}
+        </p>
+      </div>
+    </main>
   );
 }
