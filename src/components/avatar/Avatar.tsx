@@ -110,7 +110,7 @@ export default function Avatar() {
   return (
     <Canvas
       shadows
-      camera={{ fov: 45, position: [0.2, 0.7, 3.4] }}
+      camera={{ fov: 43, position: [0.15, 0.75, 2.9] }}
       dpr={[1, 2]}
       gl={{ alpha: true, antialias: true }}
       className="!touch-none"

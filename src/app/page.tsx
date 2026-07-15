@@ -57,7 +57,7 @@ export default function HomePage() {
           </Reveal>
 
           {/* Lazy 3D avatar — hidden on small screens to protect mobile LCP */}
-          <div className="hidden h-[26rem] md:block">
+          <div className="hidden h-[30rem] md:block">
             <AvatarLazy />
           </div>
         </Container>
