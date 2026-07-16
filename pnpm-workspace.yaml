@@ -1,6 +1,7 @@
 allowBuilds:
   '@firebase/util': true
   protobufjs: true
+  puppeteer: true
   sharp: true
   unrs-resolver: true
 onlyBuiltDependencies:
@@ -8,3 +9,4 @@ onlyBuiltDependencies:
   - unrs-resolver
   - '@firebase/util'
   - protobufjs
+  - puppeteer
