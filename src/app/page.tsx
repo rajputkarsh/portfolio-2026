@@ -2,7 +2,7 @@ import { Container } from "@/components/ui/Container";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { BentoGrid, BentoCard } from "@/components/ui/BentoGrid";
 import { Button } from "@/components/ui/Button";
-import { Chip } from "@/components/ui/Chip";
+import { TechChip } from "@/components/ui/TechChip";
 import { Reveal } from "@/components/ui/Reveal";
 import { Typewriter } from "@/components/ui/Typewriter";
 import { ProductCard } from "@/components/products/ProductCard";
@@ -51,7 +51,7 @@ export default function HomePage() {
             </div>
             <div className="mt-8 flex flex-wrap gap-2">
               {HERO_STACK.map((s) => (
-                <Chip key={s}>{s}</Chip>
+                <TechChip key={s} name={s} />
               ))}
             </div>
           </Reveal>
@@ -80,11 +80,21 @@ export default function HomePage() {
 
         <Reveal delay={0.05} className="mt-10">
           <BentoGrid>
-            <BentoCard col={4} row={2} className="justify-between">
-              <p className="text-muted-foreground font-mono text-xs tracking-widest uppercase">
-                the approach
-              </p>
-              <div>
+            <BentoCard
+              col={4}
+              row={2}
+              className="relative justify-between overflow-hidden"
+            >
+              <div className="bg-aurora pointer-events-none absolute inset-0 opacity-80" />
+              <div className="relative flex items-center gap-3">
+                <span className="gradient-brand shadow-soft-md inline-flex h-11 w-11 items-center justify-center rounded-xl text-xl">
+                  🎯
+                </span>
+                <p className="text-muted-foreground font-mono text-xs tracking-widest uppercase">
+                  the approach
+                </p>
+              </div>
+              <div className="relative">
                 <h3 className="text-2xl font-bold tracking-tight">
                   Product-minded engineering
                 </h3>
@@ -96,6 +106,9 @@ export default function HomePage() {
             </BentoCard>
 
             <BentoCard col={2}>
+              <span className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/15 text-xl">
+                🚀
+              </span>
               <h3 className="font-semibold">0 → 1 delivery</h3>
               <p className="text-muted-foreground mt-2 text-sm">
                 From idea to shipped, without losing momentum.
@@ -103,6 +116,9 @@ export default function HomePage() {
             </BentoCard>
 
             <BentoCard col={2}>
+              <span className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/15 text-xl">
+                🧩
+              </span>
               <h3 className="font-semibold">Full-stack depth</h3>
               <p className="text-muted-foreground mt-2 text-sm">
                 Frontend, backend, infra — one coherent whole.
@@ -110,6 +126,9 @@ export default function HomePage() {
             </BentoCard>
 
             <BentoCard col={3}>
+              <span className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/15 text-xl">
+                ⚡
+              </span>
               <h3 className="font-semibold">Fast &amp; measured</h3>
               <p className="text-muted-foreground mt-2 text-sm">
                 Performance and Core Web Vitals treated as features.
@@ -118,6 +137,9 @@ export default function HomePage() {
 
             <BentoCard col={3} className="justify-between">
               <div>
+                <span className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/15 text-xl">
+                  ✨
+                </span>
                 <h3 className="text-gradient font-semibold">
                   Products, not demos
                 </h3>
@@ -152,7 +174,7 @@ export default function HomePage() {
                 </h3>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {group.skills.map((s) => (
-                    <Chip key={s}>{s}</Chip>
+                    <TechChip key={s} name={s} />
                   ))}
                 </div>
               </div>
