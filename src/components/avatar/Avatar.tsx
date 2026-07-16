@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useEffect, useRef } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import {
   OrbitControls,
   useAnimations,
@@ -17,11 +17,34 @@ const LAPTOP = "/models/laptop.glb";
 const PLANT = "/models/plant.glb";
 const SCREEN = "/models/laptop-screen.webp";
 
-function enableShadows(obj: THREE.Object3D) {
+const TEXTURE_SLOTS = [
+  "map",
+  "normalMap",
+  "roughnessMap",
+  "metalnessMap",
+  "emissiveMap",
+  "aoMap",
+] as const;
+
+/** Enable shadows + crisp anisotropic texture filtering on every mesh. */
+function prepare(obj: THREE.Object3D, maxAnisotropy: number) {
   obj.traverse((child) => {
-    if ((child as THREE.Mesh).isMesh) {
-      child.castShadow = true;
-      child.receiveShadow = true;
+    const mesh = child as THREE.Mesh;
+    if (!mesh.isMesh) return;
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    const materials = Array.isArray(mesh.material)
+      ? mesh.material
+      : [mesh.material];
+    for (const material of materials) {
+      const mat = material as THREE.MeshStandardMaterial;
+      for (const slot of TEXTURE_SLOTS) {
+        const tex = mat[slot];
+        if (tex) {
+          tex.anisotropy = maxAnisotropy;
+          tex.needsUpdate = true;
+        }
+      }
     }
   });
 }
@@ -37,12 +60,14 @@ function Scene() {
   const avatarRef = useRef<THREE.Group>(null);
   const { actions, names } = useAnimations(avatar.animations, avatarRef);
   const busy = useRef(false);
+  const gl = useThree((s) => s.gl);
 
   useEffect(() => {
+    const maxAnisotropy = gl.capabilities.getMaxAnisotropy();
     [avatar, scandi, coffee, laptop, plant].forEach((g) =>
-      enableShadows(g.scene)
+      prepare(g.scene, maxAnisotropy)
     );
-  }, [avatar, scandi, coffee, laptop, plant]);
+  }, [avatar, scandi, coffee, laptop, plant, gl]);
 
   useEffect(() => {
     const idle = actions["standing happy"] ?? actions[names[0]];
@@ -88,6 +113,7 @@ function Scene() {
         <meshBasicMaterial
           map={screen}
           map-colorSpace={THREE.SRGBColorSpace}
+          map-anisotropy={16}
           toneMapped={false}
         />
       </mesh>
