@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
+import { GameImage } from "@/components/games/GameImage";
 import { StructuredData } from "@/components/seo/StructuredData";
 import { breadcrumb, gamesItemList } from "@/lib/structured-data";
 import { GAMES } from "@/content/games";
@@ -41,15 +42,22 @@ export default function GamesPage() {
             <Link
               key={game.slug}
               href={`/games/${game.slug}`}
-              className="card-elevated hover-glow group flex aspect-4/3 flex-col justify-between p-6"
+              className="card-elevated hover-glow group flex flex-col overflow-hidden"
             >
-              <span className="text-3xl" aria-hidden>
-                {game.emoji}
-              </span>
-              <div>
-                <h2 className="text-lg font-semibold tracking-tight">
-                  {game.title}
-                </h2>
+              <GameImage
+                slug={game.slug}
+                title={game.title}
+                emoji={game.emoji}
+              />
+              <div className="flex flex-1 flex-col p-5">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl" aria-hidden>
+                    {game.emoji}
+                  </span>
+                  <h2 className="text-lg font-semibold tracking-tight">
+                    {game.title}
+                  </h2>
+                </div>
                 <p className="text-muted-foreground mt-1 text-sm">
                   {game.description}
                 </p>

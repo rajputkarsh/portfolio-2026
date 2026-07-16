@@ -25,7 +25,9 @@ export function GameShell({
       {description ? (
         <p className="text-muted-foreground mt-2">{description}</p>
       ) : null}
-      <div className="mt-8 flex justify-center">{children}</div>
+      <div id="game-capture" className="mt-8 flex justify-center">
+        {children}
+      </div>
     </Section>
   );
 }
