@@ -124,20 +124,28 @@ function Calendar({ days }: { days: GithubDay[] }) {
     return m !== -1 && m !== monthOf(weeks[i - 1]) ? MONTHS[m] : "";
   });
 
+  const columns = `repeat(${weeks.length}, minmax(0, 1fr))`;
+
   return (
     <div className="mt-6 overflow-x-auto pb-1">
-      <div className="inline-flex flex-col gap-1">
+      <div className="min-w-[42rem]">
         <div
-          className="text-muted-foreground grid grid-flow-col gap-1 text-[9px]"
-          style={{ gridTemplateColumns: `repeat(${weeks.length}, 0.75rem)` }}
+          className="text-muted-foreground mb-1 grid gap-1 text-[10px]"
+          style={{ gridTemplateColumns: columns }}
         >
           {labels.map((label, i) => (
-            <span key={i} className="overflow-visible whitespace-nowrap">
+            <span key={i} className="whitespace-nowrap">
               {label}
             </span>
           ))}
         </div>
-        <div className="grid grid-flow-col grid-rows-7 gap-1">
+        <div
+          className="grid grid-flow-col gap-1"
+          style={{
+            gridTemplateColumns: columns,
+            gridTemplateRows: "repeat(7, minmax(0, 1fr))",
+          }}
+        >
           {weeks
             .flat()
             .map((day, i) =>
@@ -145,10 +153,10 @@ function Calendar({ days }: { days: GithubDay[] }) {
                 <span
                   key={i}
                   title={`${day.date}: ${day.count} commit${day.count === 1 ? "" : "s"}`}
-                  className={`h-3 w-3 rounded-[2px] ${levelClass(day.count)}`}
+                  className={`aspect-square rounded-[2px] ${levelClass(day.count)}`}
                 />
               ) : (
-                <span key={i} className="h-3 w-3" />
+                <span key={i} className="aspect-square" />
               )
             )}
         </div>

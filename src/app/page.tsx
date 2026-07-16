@@ -105,39 +105,61 @@ export default function HomePage() {
               </div>
             </BentoCard>
 
-            <BentoCard col={2}>
-              <span className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/15 text-xl">
-                🚀
-              </span>
-              <h3 className="font-semibold">0 → 1 delivery</h3>
-              <p className="text-muted-foreground mt-2 text-sm">
-                From idea to shipped, without losing momentum.
-              </p>
+            <BentoCard
+              col={2}
+              className="relative overflow-hidden ring-1 ring-emerald-500/15"
+            >
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-emerald-500/[0.14] via-transparent to-transparent" />
+              <div className="relative">
+                <span className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/20 text-xl ring-1 ring-emerald-500/30">
+                  🚀
+                </span>
+                <h3 className="font-semibold">0 → 1 delivery</h3>
+                <p className="text-muted-foreground mt-2 text-sm">
+                  From idea to shipped, without losing momentum.
+                </p>
+              </div>
             </BentoCard>
 
-            <BentoCard col={2}>
-              <span className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/15 text-xl">
-                🧩
-              </span>
-              <h3 className="font-semibold">Full-stack depth</h3>
-              <p className="text-muted-foreground mt-2 text-sm">
-                Frontend, backend, infra — one coherent whole.
-              </p>
+            <BentoCard
+              col={2}
+              className="relative overflow-hidden ring-1 ring-blue-500/15"
+            >
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-500/[0.14] via-transparent to-transparent" />
+              <div className="relative">
+                <span className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/20 text-xl ring-1 ring-blue-500/30">
+                  🧩
+                </span>
+                <h3 className="font-semibold">Full-stack depth</h3>
+                <p className="text-muted-foreground mt-2 text-sm">
+                  Frontend, backend, infra — one coherent whole.
+                </p>
+              </div>
             </BentoCard>
 
-            <BentoCard col={3}>
-              <span className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/15 text-xl">
-                ⚡
-              </span>
-              <h3 className="font-semibold">Fast &amp; measured</h3>
-              <p className="text-muted-foreground mt-2 text-sm">
-                Performance and Core Web Vitals treated as features.
-              </p>
+            <BentoCard
+              col={3}
+              className="relative overflow-hidden ring-1 ring-amber-500/15"
+            >
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-amber-500/[0.14] via-transparent to-transparent" />
+              <div className="relative">
+                <span className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/20 text-xl ring-1 ring-amber-500/30">
+                  ⚡
+                </span>
+                <h3 className="font-semibold">Fast &amp; measured</h3>
+                <p className="text-muted-foreground mt-2 text-sm">
+                  Performance and Core Web Vitals treated as features.
+                </p>
+              </div>
             </BentoCard>
 
-            <BentoCard col={3} className="justify-between">
-              <div>
-                <span className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/15 text-xl">
+            <BentoCard
+              col={3}
+              className="relative justify-between overflow-hidden ring-1 ring-violet-500/15"
+            >
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-violet-500/[0.14] via-transparent to-transparent" />
+              <div className="relative">
+                <span className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/20 text-xl ring-1 ring-violet-500/30">
                   ✨
                 </span>
                 <h3 className="text-gradient font-semibold">
@@ -151,7 +173,7 @@ export default function HomePage() {
                 href="/products"
                 variant="ghost"
                 size="sm"
-                className="mt-4 self-start px-0 hover:bg-transparent"
+                className="relative mt-4 self-start px-0 hover:bg-transparent"
               >
                 Explore products →
               </Button>
@@ -246,14 +268,14 @@ export default function HomePage() {
                   well-crafted.
                 </p>
               </div>
-              <Button
+              <a
                 href={profile.social.email}
-                external
-                variant="secondary"
-                className="shrink-0 bg-white/15 text-white"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex shrink-0 items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-indigo-600 shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-indigo-50 hover:shadow-xl"
               >
                 Start a conversation
-              </Button>
+              </a>
             </div>
           </div>
         </Reveal>
