@@ -52,6 +52,7 @@ const SOCIALS: { key: keyof typeof config.social; label: string }[] = [
 
 export function Footer() {
   const year = new Date().getFullYear();
+  const month = new Date().getMonth() + 1;
 
   return (
     <footer className="border-border/60 mt-16 border-t">
@@ -96,7 +97,7 @@ export function Footer() {
         <div className="border-border/60 mt-10 flex flex-col-reverse items-center justify-between gap-4 border-t pt-6 sm:flex-row">
           <div className="flex items-center gap-4">
             <p className="text-muted-foreground text-xs">
-              © {year} Utkarsh. Built with Next.js &amp; Tailwind.
+              Built with ❤️ by Utkarsh
             </p>
             <NotificationsButton />
           </div>
