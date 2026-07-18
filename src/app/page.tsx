@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { BentoGrid, BentoCard } from "@/components/ui/BentoGrid";
@@ -11,6 +12,10 @@ import { AvatarLazy } from "@/components/avatar/AvatarLazy";
 import { profile } from "@/content/profile";
 import { PRODUCTS, FEATURED_PRODUCTS } from "@/content/products";
 import { SKILL_GROUPS } from "@/content/skills";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 const HERO_STACK = ["TypeScript", "Next.js", "Node", "PostgreSQL", "AWS", "AI"];
 

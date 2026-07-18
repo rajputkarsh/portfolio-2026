@@ -8,6 +8,7 @@ import { breadcrumb, gamesItemList } from "@/lib/structured-data";
 import { GAMES } from "@/content/games";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/games" },
   title: "Games",
   description: "A little arcade — classic games rebuilt in the browser.",
 };
@@ -26,6 +27,7 @@ export default function GamesPage() {
       />
       <Reveal>
         <SectionHeading
+          as="h1"
           eyebrow="// arcade"
           title={
             <>

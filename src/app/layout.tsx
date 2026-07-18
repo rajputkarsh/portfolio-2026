@@ -52,7 +52,9 @@ export const metadata: Metadata = {
     "Product Engineering",
     "Portfolio",
   ],
-  alternates: { canonical: "/" },
+  // NOTE: no `alternates.canonical` here — layout metadata is inherited by
+  // every route, which would canonicalise all pages to "/". Each page sets
+  // its own canonical instead.
   robots: {
     index: true,
     follow: true,

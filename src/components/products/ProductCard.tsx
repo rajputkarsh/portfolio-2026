@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Product } from "@/content/products";
 import { cn } from "@/utils/cn";
 import { ProductImage } from "./ProductImage";
@@ -16,10 +17,8 @@ export function ProductCard({
   featured?: boolean;
 }) {
   return (
-    <a
-      href={product.link.href}
-      target="_blank"
-      rel="noopener noreferrer"
+    <Link
+      href={`/products/${product.slug}`}
       className="card-elevated hover-glow group flex flex-col overflow-hidden"
     >
       <ProductImage
@@ -80,10 +79,13 @@ export function ProductCard({
           </div>
         ) : null}
 
-        <span className="text-primary mt-auto pt-4 font-mono text-xs">
-          {LINK_LABEL[product.link.type]} →
+        <span className="text-primary mt-auto flex items-center gap-2 pt-4 font-mono text-xs">
+          View case study →
+          <span className="text-muted-foreground">
+            · {LINK_LABEL[product.link.type]}
+          </span>
         </span>
       </div>
-    </a>
+    </Link>
   );
 }

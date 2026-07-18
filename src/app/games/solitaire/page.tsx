@@ -3,6 +3,7 @@ import { GameShell } from "@/components/games/GameShell";
 import Solitaire from "@/components/games/solitaire";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/games/solitaire" },
   title: "Solitaire",
   description: "Klondike solitaire — build the foundations to win.",
 };

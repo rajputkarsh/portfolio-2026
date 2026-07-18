@@ -3,6 +3,7 @@ import { GameShell } from "@/components/games/GameShell";
 import Snakes from "@/components/games/snakes";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/games/snakes" },
   title: "Snakes",
   description: "Eat, grow, and don't bite yourself.",
 };

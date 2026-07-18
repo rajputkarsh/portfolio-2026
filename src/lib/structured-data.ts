@@ -39,6 +39,29 @@ export function productsItemList() {
   };
 }
 
+/** SoftwareApplication schema for a single product detail page. */
+export function productSchema(product: {
+  slug: string;
+  title: string;
+  description?: string;
+  stack?: string[];
+  link: { href: string };
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: product.title,
+    applicationCategory: "WebApplication",
+    operatingSystem: "Web",
+    url: `${SITE_URL}/products/${product.slug}`,
+    sameAs: product.link.href,
+    image: `${SITE_URL}/products/${product.slug}.webp`,
+    ...(product.description ? { description: product.description } : {}),
+    ...(product.stack?.length ? { keywords: product.stack.join(", ") } : {}),
+    author: { "@type": "Person", name: profile.fullName, url: SITE_URL },
+  };
+}
+
 export function gamesItemList() {
   return {
     "@context": "https://schema.org",

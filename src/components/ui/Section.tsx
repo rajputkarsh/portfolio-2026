@@ -15,17 +15,22 @@ export function Section({
   );
 }
 
-/** Eyebrow + heading + description block for a section. */
+/**
+ * Eyebrow + heading + description block for a section.
+ * Use `as="h1"` for the primary heading of a page (one per page).
+ */
 export function SectionHeading({
   eyebrow,
   title,
   description,
   className,
+  as: Heading = "h2",
 }: {
   eyebrow?: string;
   title: React.ReactNode;
   description?: React.ReactNode;
   className?: string;
+  as?: "h1" | "h2";
 }) {
   return (
     <div className={cn("max-w-2xl", className)}>
@@ -34,9 +39,9 @@ export function SectionHeading({
           {eyebrow}
         </p>
       ) : null}
-      <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+      <Heading className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
         {title}
-      </h2>
+      </Heading>
       {description ? (
         <p className="text-muted-foreground mt-4 text-base leading-relaxed">
           {description}

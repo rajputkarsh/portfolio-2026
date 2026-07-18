@@ -3,6 +3,30 @@ export type ProductLink = {
   type: "demo" | "source" | "npm";
 };
 
+/**
+ * Case-study copy for the product detail page (`/products/<slug>`).
+ * Every field is optional — the page renders only the sections you fill in.
+ *
+ * To flesh out a product, add:
+ *   caseStudy: {
+ *     role: "Design, engineering & deployment",
+ *     timeline: "2025",
+ *     problem: "What was broken / who it's for.",
+ *     build:   "What you actually built and the key decisions.",
+ *     outcome: "The measurable result — users, latency, revenue, time saved.",
+ *     highlights: ["Notable detail", "Another one"],
+ *   }
+ */
+export type CaseStudy = {
+  role?: string;
+  timeline?: string;
+  problem?: string;
+  build?: string;
+  /** Leave empty until you have a real, verifiable result — don't guess. */
+  outcome?: string;
+  highlights?: string[];
+};
+
 export type Product = {
   slug: string;
   title: string;
@@ -11,6 +35,7 @@ export type Product = {
   stack?: string[];
   link: ProductLink;
   featured?: boolean;
+  caseStudy?: CaseStudy;
 };
 
 /**
@@ -27,6 +52,14 @@ export const PRODUCTS: Product[] = [
     stack: ["Next.js", "AI", "TypeScript"],
     link: { href: "https://astroniq.app/", type: "demo" },
     featured: true,
+    caseStudy: {
+      role: "Product, design & full-stack engineering",
+      problem:
+        "Astrology apps tend to hand you a generic daily horoscope or bury you in jargon. Neither actually helps you understand why you are the way you are.",
+      build:
+        "A conversational AI that reads your birth chart and answers questions in plain language — layered with numerology, tarot and long-form premium reports.",
+      outcome: "",
+    },
   },
   {
     slug: "astronode",
@@ -36,6 +69,14 @@ export const PRODUCTS: Product[] = [
     stack: ["Node.js", "API", "TypeScript"],
     link: { href: "https://astronode.dev/", type: "demo" },
     featured: true,
+    caseStudy: {
+      role: "API design & backend engineering",
+      problem:
+        "Building anything astrology-related means implementing ephemeris maths, house systems and several traditions from scratch — months of work before you ship a single feature.",
+      build:
+        "Astrology as a service: 130+ endpoints spanning 7 traditions, all returning one consistent JSON shape — birth charts, compatibility, dashas, horary and forecasts.",
+      outcome: "",
+    },
   },
   {
     slug: "ai-code-editor",
@@ -45,6 +86,14 @@ export const PRODUCTS: Product[] = [
     stack: ["Next.js", "AI", "TypeScript"],
     link: { href: "https://ai-code-editor.utkarsh.app/", type: "demo" },
     featured: true,
+    caseStudy: {
+      role: "Product & full-stack engineering",
+      problem:
+        "Prototyping in the browser usually means juggling an editor, a terminal and a preview tab — every context switch breaks flow.",
+      build:
+        "A web-based editor that folds AI assistance, terminal commands and live preview into a single surface, so writing, running and seeing the result happen in one place.",
+      outcome: "",
+    },
   },
   {
     slug: "heera",
@@ -52,6 +101,14 @@ export const PRODUCTS: Product[] = [
     stack: ["Next.js", "TanStack Query", "HonoJS", "TypeScript"],
     link: { href: "https://heera.utkarsh.app/", type: "demo" },
     featured: true,
+    caseStudy: {
+      role: "Product & full-stack engineering",
+      problem:
+        "Small teams outgrow shared spreadsheets quickly, but full project suites bring more process and cost than they're worth.",
+      build:
+        "A focused project management tool — workspaces, projects and tasks — built on a typed end-to-end stack with TanStack Query on the client and Hono on the edge.",
+      outcome: "",
+    },
   },
   {
     slug: "web-analytics",
@@ -192,3 +249,20 @@ export const PRODUCTS: Product[] = [
 
 export const FEATURED_PRODUCTS = PRODUCTS.filter((p) => p.featured);
 export const OTHER_PRODUCTS = PRODUCTS.filter((p) => !p.featured);
+
+export const getProduct = (slug: string): Product | undefined =>
+  PRODUCTS.find((p) => p.slug === slug);
+
+/** Other products, ranked by shared stack so "related" is actually related. */
+export function relatedProducts(slug: string, limit = 3): Product[] {
+  const current = getProduct(slug);
+  const stack = new Set(current?.stack ?? []);
+  return PRODUCTS.filter((p) => p.slug !== slug)
+    .map((p) => ({
+      p,
+      score: (p.stack ?? []).filter((t) => stack.has(t)).length,
+    }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map(({ p }) => p);
+}

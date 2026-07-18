@@ -11,6 +11,7 @@ import {
 } from "@/content/products";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/products" },
   title: "Products",
   description:
     "Products I've designed, built, and shipped — from AI apps and APIs to developer tools.",
@@ -30,6 +31,7 @@ export default function ProductsPage() {
       />
       <Reveal>
         <SectionHeading
+          as="h1"
           eyebrow="// products"
           title={
             <>

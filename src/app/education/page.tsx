@@ -6,6 +6,7 @@ import { breadcrumb } from "@/lib/structured-data";
 import { EDUCATION } from "@/content/education";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/education" },
   title: "Education",
   description:
     "Education, milestones, and the path that shaped how I build products.",
@@ -22,6 +23,7 @@ export default function EducationPage() {
       />
       <Reveal>
         <SectionHeading
+          as="h1"
           eyebrow="// journey"
           title={
             <>
