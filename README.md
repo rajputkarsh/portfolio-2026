@@ -70,10 +70,12 @@ pnpm dev                     # http://localhost:3000
 ```
 src/
   app/              App Router routes, metadata, manifest, robots, sitemap, OG image
+    products/[slug]/  Per-product case-study page + OG image (statically generated)
+    not-found.tsx     Branded 404
   components/
     avatar/         Lazy R3F 3D avatar
     games/          The six games (each with route-split logic)
-    home/           GitHub activity band
+    home/           GitHub activity band + contribution calendar
     layout/         Glass pill Navbar, Footer
     products/       Product case-study card
     pwa/            Service-worker registration, install prompt, notifications
@@ -81,13 +83,16 @@ src/
     theme/          Theme provider + toggle
     ui/             Container, Section, BentoGrid, Card, Chip, Button, Reveal
   content/          Typed content: products, skills, education, games, profile
-  lib/              GitHub stats, notifications
+  lib/              GitHub stats, contribution maths, structured data, notifications
   utils/            cn, common helpers
 public/
-  models/           utkarsh.glb (3D avatar)
+  models/           Desk-scene GLBs (avatar, laptop, plant, coffee, scandi)
+  products/         Product screenshots (.webp)
   sw.js             Hand-rolled service worker
 scripts/
-  generate-icons.mjs  Regenerate PWA icons (sharp)
+  generate-icons.mjs        Regenerate PWA icons (sharp)
+  screenshot-products.mjs   Capture product screenshots (puppeteer)
+  screenshot-games.mjs      Capture game screenshots (puppeteer)
 ```
 
 ## Content
@@ -99,10 +104,39 @@ Everything is editable as typed data — no CMS required:
 - **Education** → `src/content/education.ts`
 - **Profile / socials** → `src/content/profile.ts`
 
+### Products
+
+Each entry in `PRODUCTS` generates a statically-rendered detail page at
+`/products/<slug>`, with its own metadata, canonical, OG image and
+`SoftwareApplication` JSON-LD. Two optional fields drive it:
+
+- **`caseStudy`** — `role` / `timeline` / `problem` / `build` / `outcome` /
+  `highlights`. Every field is optional and each section renders only when
+  filled, so partial copy is fine. Leave `outcome` empty until you have a real,
+  verifiable number.
+- **`status`** — set `"offline"` when a hosted demo stops responding. The page
+  is then `noindex`, dropped from the sitemap and structured data, its
+  screenshot is suppressed (the capture would just be the host's error page),
+  and the live-link CTA is replaced with an "archived" note. The product stays
+  listed as portfolio history. Recheck with:
+
+  ```bash
+  curl -s -o /dev/null -w "%{http_code}\n" -L <product-url>
+  ```
+
 Regenerate app icons after tweaking the brand mark:
 
 ```bash
 node scripts/generate-icons.mjs
+```
+
+Recapture product / game screenshots (puppeteer + sharp). Pass slugs to limit
+the run, and `WAIT_MS` for slow client-rendered apps:
+
+```bash
+node scripts/screenshot-products.mjs              # all products
+WAIT_MS=9000 node scripts/screenshot-products.mjs astroniq heera
+node scripts/screenshot-games.mjs
 ```
 
 ## Deployment

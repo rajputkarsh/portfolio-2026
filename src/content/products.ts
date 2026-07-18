@@ -47,6 +47,20 @@ export type Product = {
 
 export const isLive = (p: Product) => p.status !== "offline";
 
+/** Short label for a link — used on product cards. */
+export const LINK_LABEL: Record<ProductLink["type"], string> = {
+  demo: "Live demo",
+  source: "Source",
+  npm: "NPM",
+};
+
+/** Call-to-action label for the same link on a detail page. */
+export const LINK_CTA: Record<ProductLink["type"], string> = {
+  demo: "Visit live site",
+  source: "View source",
+  npm: "View on NPM",
+};
+
 /**
  * Sourced from the live portfolio (utkarshrajput.com/projects). Descriptions
  * are shown only where the source provided prose; otherwise the stack is the

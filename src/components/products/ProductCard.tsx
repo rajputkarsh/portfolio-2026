@@ -1,13 +1,7 @@
 import Link from "next/link";
-import { isLive, type Product } from "@/content/products";
+import { isLive, LINK_LABEL, type Product } from "@/content/products";
 import { cn } from "@/utils/cn";
 import { ProductImage } from "./ProductImage";
-
-const LINK_LABEL: Record<Product["link"]["type"], string> = {
-  demo: "Live demo",
-  source: "Source",
-  npm: "NPM",
-};
 
 export function ProductCard({
   product,

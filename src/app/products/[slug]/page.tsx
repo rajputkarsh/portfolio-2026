@@ -12,13 +12,8 @@ import {
   getProduct,
   relatedProducts,
   isLive,
+  LINK_CTA,
 } from "@/content/products";
-
-const LINK_LABEL = {
-  demo: "Visit live site",
-  source: "View source",
-  npm: "View on NPM",
-} as const;
 
 export function generateStaticParams() {
   return PRODUCTS.map((p) => ({ slug: p.slug }));
@@ -113,7 +108,7 @@ export default async function ProductPage({
         <div className="mt-6 flex flex-wrap items-center gap-3">
           {live ? (
             <Button href={product.link.href} external>
-              {LINK_LABEL[product.link.type]} →
+              {LINK_CTA[product.link.type]} →
             </Button>
           ) : (
             <span className="border-border/70 text-muted-foreground inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm">
