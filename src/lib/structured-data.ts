@@ -1,5 +1,5 @@
 import { SITE_URL, profile } from "@/content/profile";
-import { PRODUCTS } from "@/content/products";
+import { PRODUCTS, isLive } from "@/content/products";
 import { GAMES } from "@/content/games";
 
 type Crumb = { name: string; path: string };
@@ -22,7 +22,7 @@ export function productsItemList() {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "Products by Utkarsh",
-    itemListElement: PRODUCTS.map((p, i) => ({
+    itemListElement: PRODUCTS.filter(isLive).map((p, i) => ({
       "@type": "ListItem",
       position: i + 1,
       item: {

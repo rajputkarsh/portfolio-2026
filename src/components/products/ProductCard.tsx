@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Product } from "@/content/products";
+import { isLive, type Product } from "@/content/products";
 import { cn } from "@/utils/cn";
 import { ProductImage } from "./ProductImage";
 
@@ -24,6 +24,7 @@ export function ProductCard({
       <ProductImage
         slug={product.slug}
         title={product.title}
+        useFallback={!isLive(product)}
         sizes={
           featured
             ? "(max-width: 640px) 100vw, 50vw"
@@ -82,7 +83,7 @@ export function ProductCard({
         <span className="text-primary mt-auto flex items-center gap-2 pt-4 font-mono text-xs">
           View case study →
           <span className="text-muted-foreground">
-            · {LINK_LABEL[product.link.type]}
+            · {isLive(product) ? LINK_LABEL[product.link.type] : "Archived"}
           </span>
         </span>
       </div>

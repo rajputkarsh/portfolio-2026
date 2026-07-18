@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/content/profile";
 import { GAMES } from "@/content/games";
-import { PRODUCTS } from "@/content/products";
+import { PRODUCTS, isLive } from "@/content/products";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
@@ -13,7 +13,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/games", changeFrequency: "monthly" as const, priority: 0.6 },
   ];
 
-  const products = PRODUCTS.map((p) => ({
+  // Offline products are noindex — keep them out of the sitemap too.
+  const products = PRODUCTS.filter(isLive).map((p) => ({
     path: `/products/${p.slug}`,
     changeFrequency: "monthly" as const,
     priority: p.featured ? 0.8 : 0.6,

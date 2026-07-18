@@ -51,9 +51,6 @@ const SOCIALS: { key: keyof typeof config.social; label: string }[] = [
 ];
 
 export function Footer() {
-  const year = new Date().getFullYear();
-  const month = new Date().getMonth() + 1;
-
   return (
     <footer className="border-border/60 mt-16 border-t">
       <Container className="py-12">

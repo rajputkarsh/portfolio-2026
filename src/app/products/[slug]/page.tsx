@@ -7,7 +7,12 @@ import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 import { StructuredData } from "@/components/seo/StructuredData";
 import { breadcrumb, productSchema } from "@/lib/structured-data";
-import { PRODUCTS, getProduct, relatedProducts } from "@/content/products";
+import {
+  PRODUCTS,
+  getProduct,
+  relatedProducts,
+  isLive,
+} from "@/content/products";
 
 const LINK_LABEL = {
   demo: "Visit live site",
@@ -37,6 +42,9 @@ export async function generateMetadata({
     title: product.title,
     description,
     alternates: { canonical: `/products/${slug}` },
+    // The hosted demo is down — don't spend crawl budget on a page whose
+    // primary value (a working link) no longer exists.
+    ...(isLive(product) ? {} : { robots: { index: false, follow: true } }),
     openGraph: {
       type: "article",
       title: product.title,
@@ -57,6 +65,7 @@ export default async function ProductPage({
 
   const cs = product.caseStudy;
   const related = relatedProducts(slug);
+  const live = isLive(product);
 
   return (
     <Section>
@@ -67,7 +76,8 @@ export default async function ProductPage({
             { name: "Products", path: "/products" },
             { name: product.title, path: `/products/${slug}` },
           ]),
-          productSchema(product),
+          // Only claim a SoftwareApplication when it's actually reachable.
+          ...(live ? [productSchema(product)] : []),
         ]}
       />
 
@@ -101,9 +111,19 @@ export default async function ProductPage({
         ) : null}
 
         <div className="mt-6 flex flex-wrap items-center gap-3">
-          <Button href={product.link.href} external>
-            {LINK_LABEL[product.link.type]} →
-          </Button>
+          {live ? (
+            <Button href={product.link.href} external>
+              {LINK_LABEL[product.link.type]} →
+            </Button>
+          ) : (
+            <span className="border-border/70 text-muted-foreground inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm">
+              <span
+                aria-hidden
+                className="bg-muted-foreground/60 size-2 rounded-full"
+              />
+              Demo archived — no longer hosted
+            </span>
+          )}
           {cs?.role ? (
             <span className="text-muted-foreground text-sm">{cs.role}</span>
           ) : null}
@@ -123,19 +143,22 @@ export default async function ProductPage({
         ) : null}
       </Reveal>
 
-      {/* Screenshot */}
-      <Reveal delay={0.05} className="mt-10">
-        <div className="card-elevated relative aspect-[16/10] w-full overflow-hidden p-0">
-          <Image
-            src={`/products/${slug}.webp`}
-            alt={`${product.title} — product screenshot`}
-            fill
-            sizes="(max-width: 1024px) 100vw, 1100px"
-            priority
-            className="object-cover object-top"
-          />
-        </div>
-      </Reveal>
+      {/* Screenshot — skipped when offline, since the capture would just be
+          the host's error page rather than the product. */}
+      {live ? (
+        <Reveal delay={0.05} className="mt-10">
+          <div className="card-elevated relative aspect-[16/10] w-full overflow-hidden p-0">
+            <Image
+              src={`/products/${slug}.webp`}
+              alt={`${product.title} — product screenshot`}
+              fill
+              sizes="(max-width: 1024px) 100vw, 1100px"
+              priority
+              className="object-cover object-top"
+            />
+          </div>
+        </Reveal>
+      ) : null}
 
       {/* Case study */}
       {cs && (cs.problem || cs.build || cs.outcome || cs.highlights?.length) ? (

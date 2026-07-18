@@ -35,8 +35,17 @@ export type Product = {
   stack?: string[];
   link: ProductLink;
   featured?: boolean;
+  /**
+   * "offline" when the hosted demo no longer responds (4xx/5xx). Offline
+   * products stay listed as portfolio history but are de-indexed, dropped from
+   * the sitemap and structured data, and never render a live link — a dead
+   * link costs more in credibility and crawl budget than the page gains.
+   */
+  status?: "live" | "offline";
   caseStudy?: CaseStudy;
 };
+
+export const isLive = (p: Product) => p.status !== "offline";
 
 /**
  * Sourced from the live portfolio (utkarshrajput.com/projects). Descriptions
@@ -139,12 +148,14 @@ export const PRODUCTS: Product[] = [
       "Supabase",
     ],
     link: { href: "https://autosure.utkarsh.app/", type: "demo" },
+    status: "offline", // host returns 403
   },
   {
     slug: "vii-call",
     title: "Vii Call — Conference Video Calls",
     stack: ["TypeScript", "Next.js", "shadcn/ui", "Stream.io"],
     link: { href: "https://vii-call.utkarsh.app/", type: "demo" },
+    status: "offline", // host returns 500
   },
   {
     slug: "snippet-master",
@@ -208,6 +219,7 @@ export const PRODUCTS: Product[] = [
     title: "Dice Roll Game",
     stack: ["React", "Redux Toolkit"],
     link: { href: "https://dice-roll.utkarsh.app/", type: "demo" },
+    status: "offline", // host returns 404
   },
   {
     slug: "windows-11",

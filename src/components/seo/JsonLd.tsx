@@ -1,4 +1,6 @@
 import { SITE_URL, profile } from "@/content/profile";
+import { PRODUCTS, isLive } from "@/content/products";
+import { EDUCATION } from "@/content/education";
 
 /** Person + WebSite structured data for rich results. */
 export function JsonLd() {
@@ -9,6 +11,15 @@ export function JsonLd() {
     profile.social.stackoverflow,
   ].filter(Boolean);
 
+  // Derived from content so the schema can't drift from what's on the page.
+  const knowsAbout = [
+    ...new Set(PRODUCTS.filter(isLive).flatMap((p) => p.stack ?? [])),
+  ].sort();
+
+  const alumniOf = [
+    ...new Set(EDUCATION.map((m) => m.institution).filter(Boolean)),
+  ].map((name) => ({ "@type": "EducationalOrganization", name }));
+
   const graph = [
     {
       "@context": "https://schema.org",
@@ -17,6 +28,12 @@ export function JsonLd() {
       url: SITE_URL,
       jobTitle: profile.role,
       description: profile.summary,
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: profile.location,
+      },
+      knowsAbout,
+      alumniOf,
       sameAs,
     },
     {
