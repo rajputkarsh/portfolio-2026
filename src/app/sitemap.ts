@@ -4,7 +4,10 @@ import { GAMES } from "@/content/games";
 import { PRODUCTS, isLive } from "@/content/products";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
+  // Deliberately no `lastModified`: it was the build timestamp, which claimed
+  // every page changed on every deploy. Google discounts lastmod it can't
+  // trust, so omitting is a stronger signal than a blanket-inaccurate one.
+  // Reintroduce per-entry once content carries a real updated-at date.
 
   const top = [
     { path: "", changeFrequency: "monthly" as const, priority: 1 },
@@ -29,7 +32,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [...top, ...products, ...games].map(
     (r) => ({
       url: `${SITE_URL}${r.path}`,
-      lastModified,
       changeFrequency: r.changeFrequency,
       priority: r.priority,
     })
@@ -38,7 +40,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // External blog (kept in the nav).
   entries.push({
     url: "https://blogs.utkarshrajput.com",
-    lastModified,
     changeFrequency: "monthly",
     priority: 0.5,
   });

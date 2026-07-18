@@ -101,8 +101,18 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          {/* WCAG 2.4.1 — lets keyboard users jump the nav on every page.
+              Visually hidden until focused. */}
+          <a
+            href="#main"
+            className="bg-background text-foreground focus:ring-ring sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-full focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:whitespace-nowrap focus:ring-2 focus:outline-none"
+          >
+            Skip to content
+          </a>
           <Navbar />
-          <main className="min-h-dvh pt-28">{children}</main>
+          <main id="main" className="min-h-dvh pt-28">
+            {children}
+          </main>
           <Footer />
           <InstallPrompt />
         </ThemeProvider>

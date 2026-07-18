@@ -47,7 +47,26 @@ const nextConfig: NextConfig = {
     ],
   },
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      // Static assets under /public are served with `max-age=0` by default, so
+      // every repeat visit re-downloads ~19MB of GLB models. These filenames
+      // aren't content-hashed, so this is a long max-age rather than
+      // `immutable` — replacing a file propagates within the window, and a
+      // hard refresh always bypasses it.
+      {
+        source: "/models/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=2592000" }, // 30d
+        ],
+      },
+      {
+        source: "/products/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=2592000" }, // 30d
+        ],
+      },
+    ];
   },
 };
 

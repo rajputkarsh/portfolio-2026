@@ -269,12 +269,19 @@ export const getProduct = (slug: string): Product | undefined =>
 export function relatedProducts(slug: string, limit = 3): Product[] {
   const current = getProduct(slug);
   const stack = new Set(current?.stack ?? []);
-  return PRODUCTS.filter((p) => p.slug !== slug)
-    .map((p) => ({
-      p,
-      score: (p.stack ?? []).filter((t) => stack.has(t)).length,
-    }))
-    .sort((a, b) => b.score - a.score)
-    .slice(0, limit)
-    .map(({ p }) => p);
+  return (
+    PRODUCTS.filter((p) => p.slug !== slug)
+      .map((p) => ({
+        p,
+        score: (p.stack ?? []).filter((t) => stack.has(t)).length,
+      }))
+      // Live products first — recommending an archived demo is a dead end for
+      // the reader. With 19 live products, archived ones effectively never
+      // surface here, but the ordering keeps it correct if that ratio changes.
+      .sort(
+        (a, b) => Number(isLive(b.p)) - Number(isLive(a.p)) || b.score - a.score
+      )
+      .slice(0, limit)
+      .map(({ p }) => p)
+  );
 }
